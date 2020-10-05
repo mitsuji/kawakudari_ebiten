@@ -1,16 +1,14 @@
 package main
 
 import (
-//    "fmt"
     "time"
     "math/rand"
-    "image/color"
     "github.com/hajimehoshi/ebiten"
-    "github.com/mitsuji/kawakudari_ebiten/std15"
+    "github.com/mitsuji/kawakudari_ebiten/ichigojam"
 )
 
 type Game struct {
-  std15 * std15.Std15
+  std15 * ichigojam.Std15
   frame uint32
   x int32
   running bool
@@ -22,13 +20,13 @@ func main() {
     ebiten.SetWindowTitle("kawakudari")
     ebiten.SetVsyncEnabled(false)
     game := &Game{
-      std15 : std15.New(512, 384, 32, 24),
+      std15 : ichigojam.New(512, 384, 32, 24),
       frame : 0,
       x : 15,
       running : true,
     }
     if err := ebiten.RunGame(game); err != nil {
-        panic(err)
+      panic(err)
     }
 }
 
@@ -59,7 +57,5 @@ func (g *Game) Update(screen *ebiten.Image) error {
 }
 
 func (g *Game) Draw(screen *ebiten.Image) {
-   screen.Fill(color.Black)
-   g.std15.PAppletDraw(screen)
+   g.std15.DrawScreen(screen)
 }
-
