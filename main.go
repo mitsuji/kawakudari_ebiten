@@ -49,6 +49,9 @@ func (g *Game) Update(screen *ebiten.Image) error {
       g.std15.Locate(rand.Int31n(32),23)
       g.std15.Putc('*')
       if g.std15.Scr(g.x,5) != 0 {
+        g.std15.Locate(0,23)
+        g.std15.Putstr("Game Over...")
+        g.std15.Putnum(int32(g.frame))
         g.running = false
       }
     }
