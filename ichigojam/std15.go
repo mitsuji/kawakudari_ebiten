@@ -11,6 +11,14 @@ import (
 const CharW int32 = 8
 const CharH int32 = 8
 
+type Direction int32
+const (
+  Up Direction = iota
+  Right
+  Down
+  Left
+)
+
 type Std15 struct {
     screenW int32
     screenH int32
@@ -77,13 +85,34 @@ func (self *Std15) Cls () {
   }
 }
 
-func (self *Std15) Scroll () {
+func (self *Std15) Scroll (dir Direction) {
   for y := int32(0); y < self.buffH; y++ {
     for x := int32(0); x < self.buffW; x++ {
-      if y == self.buffH -1 {
-        self.SetChar(x,y,0)
-     } else {
-        self.SetChar(x,y,self.Scr(x,y+1))
+      switch(dir) {
+      case Up :
+        if y == self.buffH -1 {
+          self.SetChar(x,y,0)
+        } else {
+          self.SetChar(x,y,self.Scr(x,y+1))
+        }
+      case Right :
+        if x == self.buffW -1 {
+          self.SetChar((self.buffW-x-1),y,0)
+        } else {
+          self.SetChar((self.buffW-x-1),y,self.Scr((self.buffW-x-1)-1,y))
+        }
+      case Down :
+        if y == self.buffH -1 {
+          self.SetChar(x,(self.buffH-y-1),0)
+        } else {
+          self.SetChar(x,(self.buffH-y-1),self.Scr(x,(self.buffH-y-1)-1))
+        }
+      case Left :
+        if x == self.buffW -1 {
+          self.SetChar(x,y,0)
+        } else {
+          self.SetChar(x,y,self.Scr(x+1,y))
+        }
       }
     }
   }

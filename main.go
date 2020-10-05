@@ -4,11 +4,11 @@ import (
     "time"
     "math/rand"
     "github.com/hajimehoshi/ebiten"
-    "github.com/mitsuji/kawakudari_ebiten/ichigojam"
+    ij "github.com/mitsuji/kawakudari_ebiten/ichigojam"
 )
 
 type Game struct {
-  std15 * ichigojam.Std15
+  std15 * ij.Std15
   frame uint32
   x int32
   running bool
@@ -20,7 +20,7 @@ func main() {
     ebiten.SetWindowTitle("kawakudari")
     ebiten.SetVsyncEnabled(false)
     game := &Game{
-      std15 : ichigojam.New(512, 384, 32, 24),
+      std15 : ij.New(512, 384, 32, 24),
       frame : 0,
       x : 15,
       running : true,
@@ -45,9 +45,9 @@ func (g *Game) Update(screen *ebiten.Image) error {
       }
       g.std15.Locate(g.x,5)
       g.std15.Putc('0')
-      g.std15.Scroll()
       g.std15.Locate(rand.Int31n(32),23)
       g.std15.Putc('*')
+      g.std15.Scroll(ij.Up)
       if g.std15.Scr(g.x,5) != 0 {
         g.std15.Locate(0,23)
         g.std15.Putstr("Game Over...")
