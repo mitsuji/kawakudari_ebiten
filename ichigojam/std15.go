@@ -2,6 +2,7 @@ package ichigojam
 
 import (
     "strconv"
+    "math"
     "image/color"
     "github.com/hajimehoshi/ebiten"
     "github.com/hajimehoshi/ebiten/ebitenutil"
@@ -116,6 +117,18 @@ func (self *Std15) Scroll (dir Direction) {
       }
     }
   }
+}
+
+func (self *Std15) Pset ( x int32, y int32) {
+  cx := x / 2
+  cy := y / 2
+  c := self.Scr(cx,cy)
+  b := byte(math.Pow(2,float64(((y%2) << 1) + (x%2))))
+  a := byte(0x80)
+  if (c & 0xf0) == 0x80 {
+    a = c
+  }
+  self.SetChar(cx,cy,a | b)
 }
 
 func (self *Std15) SetChar ( x int32, y int32, c byte) {
