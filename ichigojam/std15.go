@@ -1,6 +1,7 @@
 package ichigojam
 
 import (
+    "strconv"
     "image/color"
     "github.com/hajimehoshi/ebiten"
     "github.com/hajimehoshi/ebiten/ebitenutil"
@@ -44,6 +45,24 @@ func (self *Std15) Locate ( x int32, y int32) {
 
 func (self *Std15) Putc (c byte) {
      self.SetChar(self.cursorX, self.cursorY, c)
+     if (self.cursorX < self.buffW-1) {
+       self.cursorX ++;
+     } else {
+       if(self.cursorY < self.buffH-1) {
+         self.cursorX = 0;
+         self.cursorY ++;
+       }
+     }
+}
+
+func (self *Std15) Putstr (s string) {
+     for _, c := range s {
+       self.Putc(byte(c))
+     }
+}
+
+func (self *Std15) Putnum (n int32) {
+     self.Putstr(strconv.Itoa(int(n)))
 }
 
 func (self *Std15) Scr ( x int32, y int32) byte {
